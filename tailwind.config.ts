@@ -13,8 +13,19 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors: {
+        primary: "#ffffff",
+        secondery: "#f3f4f6",
+        secondery2: "#71717a",
+      },
+      fontFamily: {
+        lalezar: ["Lalezar", "sans-serif"],
+        zain: ["Zain", "sans-serif"],
+        noto: ["Noto Naskh Arabic", "sans-serif"],
+      },
     },
   },
   plugins: [],
 };
+
 export default config;
