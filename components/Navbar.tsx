@@ -1,20 +1,17 @@
 "use client";
 
 import { IoIosSearch } from "react-icons/io";
-import { api } from "@/app/api/api";
-import { useQuery } from "@tanstack/react-query";
+
 import Image from "next/image";
 import { MdNotificationsNone, MdPerson } from "react-icons/md";
 import { FaRegBookmark } from "react-icons/fa";
+import { useGetProfile } from "@/hooks/useArticles";
 
 function Navbar() {
-  const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ["profile"],
-    queryFn: async () => await fetch(api.profile).then((res) => res.json()),
-  });
+  const { data, isLoading, isError, refetch } = useGetProfile();
   return (
-    <div className=" flex flex-row-reverse items-center justify-between h-[100px] w-screen sticky top-0 bg-primary  shadow-md">
-      <div className=" text-[23px] mr-12 font-bold">
+    <div className=" flex flex-row-reverse items-center justify-between h-[90px] w-screen fixed top-0 bg-primary shadow-sm z-50">
+      <div className=" text-[23px] mr-12 font-bold cursor-pointer">
         <p>
           Sanaw <span className="text-green-500">ICT</span>
         </p>
@@ -39,10 +36,10 @@ function Navbar() {
             className="bg-black rounded-full"
           />
         ) : (
-          <MdPerson className="text-[29px] text-gray-500 " />
+          <MdPerson className="text-[29px] text-gray-500 cursor-pointer " />
         )}
-        <MdNotificationsNone className="text-[26px] text-gray-500" />
-        <FaRegBookmark className="text-[20px] text-gray-500 " />
+        <MdNotificationsNone className="text-[26px] text-gray-500 cursor-pointer " />
+        <FaRegBookmark className="text-[20px] text-gray-500 cursor-pointer " />
       </div>
     </div>
   );

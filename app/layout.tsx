@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-noto">
+      <body className="font-noto w-screen h-screen  overflow-x-hidden ">
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>
