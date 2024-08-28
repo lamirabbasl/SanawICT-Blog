@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import {
   useArticles,
   useLikeArticle,
@@ -7,22 +8,37 @@ import {
   useSaveArticle,
   useUnsaveArticle,
 } from "@/hooks/useArticles";
-import { MdPerson } from "react-icons/md";
-import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { FaRegBookmark, FaBookmark } from "react-icons/fa";
-import { MdMoreVert } from "react-icons/md";
+import { MdPerson, MdMoreVert } from "react-icons/md";
+import { FaRegHeart, FaHeart, FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { Article } from "@/utility/apiService";
 import { useQueryClient } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Report from "@/components/Report";
+import Link from "next/link";
 
 function Articles() {
   const { data, isLoading, isError } = useArticles();
+  const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+  const [reportArticleId, setReportArticleId] = useState<number | null>(null);
+
   const likeArticleMutation = useLikeArticle();
   const unlikeArticleMutation = useUnlikeArticle();
   const saveArticleMutation = useSaveArticle();
   const unsaveArticleMutation = useUnsaveArticle();
   const queryClient = useQueryClient();
+
+  const toggleDropdown = (id: number) => {
+    setOpenDropdownId(openDropdownId === id ? null : id);
+  };
+
+  const openModal = (articleId: number) => {
+    setReportArticleId(articleId);
+  };
+
+  const closeModal = () => {
+    setReportArticleId(null);
+  };
 
   const handleToggleLike = (article: Article) => {
     if (!data) return;
@@ -104,7 +120,6 @@ function Articles() {
 
     const savedByUser = !article.savedByUser;
 
-    // Optimistically update the UI
     queryClient.setQueryData(["articles"], (oldData: any) => {
       return oldData
         ? {
@@ -215,8 +230,8 @@ function Articles() {
   }
 
   return (
-    <div className="flex flex-col mr-[200px] pt-10 w-[600px] text-right gap-6">
-      {data?.data.articles.map(
+    <div className="relative flex flex-col mr-[200px] pt-10 w-[600px] text-right gap-6">
+      {data?.data.temp.map(
         (article: Article, index: number) =>
           article.isVisible && (
             <div
@@ -225,12 +240,26 @@ function Articles() {
             >
               <div className="flex flex-col w-full items-end gap-3">
                 <div className="flex items-end w-full justify-center flex-col gap-2">
-                  <h1 className="font-bold font-sahel text-[15px] cursor-pointer">
-                    {article.title}
-                  </h1>
-                  <p className="text-[10px] text-secondery2 cursor-pointer">
-                    {article.metaTitle}
-                  </p>
+                  <Link
+                    href={`/articles/read/${article.title.replace(
+                      /\s+/g,
+                      "_"
+                    )}`}
+                  >
+                    <h1 className="font-bold font-sahel text-[15px] cursor-pointer">
+                      {article.title}
+                    </h1>
+                  </Link>
+                  <Link
+                    href={`/articles/read/${article.title.replace(
+                      /\s+/g,
+                      "_"
+                    )}`}
+                  >
+                    <p className="text-[10px] text-secondery2 cursor-pointer">
+                      {article.metaTitle}
+                    </p>
+                  </Link>
                 </div>
                 <div className="flex flex-row-reverse mt-5 justify-between w-full items-center">
                   <div className="flex flex-row-reverse text-right items-center justify-center gap-3 cursor-pointer">
@@ -276,21 +305,56 @@ function Articles() {
                     <p className="absolute text-[9px] ml-5 mt-5">
                       {article.likeCount}
                     </p>
-                    <MdMoreVert className="text-[21px] cursor-pointer" />
+                    <MdMoreVert
+                      className="text-[21px] cursor-pointer"
+                      onClick={() => toggleDropdown(article.id)}
+                    />
+                    {openDropdownId === article.id && (
+                      <div className="absolute mt-12  ml-[200px] w-[150px] bg-white border border-gray-300 shadow-md rounded-md z-50">
+                        <ul className="text-[12px]">
+                          <li
+                            className="p-2 cursor-pointer hover:bg-gray-100"
+                            onClick={() => {
+                              toggleDropdown(article.id);
+                              openModal(article.id);
+                            }}
+                          >
+                            گزارش تخلف
+                          </li>
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
               <div className="flex justify-center items-center">
                 {article.author.avatar && !isError ? (
-                  <img
-                    src={article.author.avatar}
-                    alt=""
-                    className="h-[150px] w-[150px] cursor-pointer"
-                  />
+                  <Link
+                    href={`/articles/read/${article.title.replace(
+                      /\s+/g,
+                      "_"
+                    )}`}
+                  >
+                    <img
+                      src={article.author.avatar}
+                      alt=""
+                      className="h-[150px] w-[150px] cursor-pointer"
+                    />
+                  </Link>
                 ) : (
-                  <div className="bg-secondery h-[100px] w-[120px] cursor-pointer"></div>
+                  <Link
+                    href={`/articles/read/${article.title.replace(
+                      /\s+/g,
+                      "_"
+                    )}`}
+                  >
+                    <div className="bg-secondery h-[100px] w-[120px] cursor-pointer"></div>
+                  </Link>
                 )}
               </div>
+              {reportArticleId === article.id && (
+                <Report articleId={article.id} onClose={closeModal} />
+              )}
             </div>
           )
       )}

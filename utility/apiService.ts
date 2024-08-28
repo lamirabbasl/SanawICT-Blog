@@ -22,7 +22,7 @@ export interface Article {
 
 interface ArticlesResponse {
   data: {
-    articles: Article[];
+    temp: Article[];
   };
 }
 
@@ -144,6 +144,80 @@ export const fetchPopular = async () => {
 
 export const fetchMostViewd = async () => {
   const response = await fetch(`${api.mostviewed}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};
+
+export const fetchViolationReportCases = async () => {
+  const response = await fetch(`${api.violationReportCases}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};
+
+export const reportArticle = async ({
+  articleId,
+  description,
+  violationReportCaseId,
+}: {
+  articleId: number;
+  description: string;
+  violationReportCaseId: number;
+}): Promise<void> => {
+  const body = {
+    description,
+    violationReportCaseId,
+    articleId,
+  };
+
+  const response = await fetch(`${api.articleReport}${articleId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`, // Ensure `Token` is defined and available
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to report article");
+  }
+};
+
+export const fetchArticlePage = async (articleSlug: any) => {
+  const response = await fetch(`${api.articlePage}${articleSlug}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};
+
+export const fetchSearchArticle = async (searchQuery: any) => {
+  const response = await fetch(`${api.articlePage}${searchQuery}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

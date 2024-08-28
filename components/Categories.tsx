@@ -8,7 +8,7 @@ function Categories() {
   const { data, isLoading, isError, refetch } = useGetCategories();
 
   return (
-    <div className=" sticky top-[90px] flex  items-center flex-row-reverse gap-2 w-screen h-[45px] bg-primary shadow-md pr-6">
+    <div className=" sticky top-[93px] flex  items-center flex-row-reverse gap-2 w-screen h-[45px] bg-primary shadow-md pr-6 z-50">
       {data?.data?.categories.map((category: any, index: any) => (
         <div
           className={
