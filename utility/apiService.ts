@@ -191,7 +191,7 @@ export const reportArticle = async ({
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${Token}`, // Ensure `Token` is defined and available
+      Authorization: `Bearer ${Token}`,
     },
     body: JSON.stringify(body),
   });
@@ -229,4 +229,42 @@ export const fetchSearchArticle = async (searchQuery: any) => {
     throw new Error("Network response was not ok");
   }
   return response.json();
+};
+
+export const createArticle = async ({
+  title,
+  metaTitle,
+  content,
+  tags,
+  readTimeAsMin,
+  categoryId,
+}: {
+  title: string;
+  metaTitle: string;
+  content: string;
+  tags: string;
+  readTimeAsMin: number;
+  categoryId: number;
+}): Promise<void> => {
+  const response = await fetch(`${api.createArticle}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+    body: JSON.stringify({
+      title,
+      metaTitle,
+      content: content,
+      tags,
+      readTimeAsMin,
+      categoryId,
+    }),
+  });
+
+  if (response.ok) {
+    console.log("Content saved successfully!");
+  } else {
+    throw new Error("Failed to save content.");
+  }
 };

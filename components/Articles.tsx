@@ -16,6 +16,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Report from "@/components/Report";
 import Link from "next/link";
+import Image from "next/image";
 
 function Articles() {
   const { data, isLoading, isError } = useArticles();
@@ -54,7 +55,7 @@ function Articles() {
             ...oldData,
             data: {
               ...oldData.data,
-              articles: oldData.data.articles.map((a: any) =>
+              temp: oldData.data.temp.map((a: any) =>
                 a.id === article.id ? { ...a, likedByUser, likeCount } : a
               ),
             },
@@ -72,7 +73,7 @@ function Articles() {
                   ...oldData,
                   data: {
                     ...oldData.data,
-                    articles: oldData.data.articles.map((a: any) =>
+                    temp: oldData.data.temp.map((a: any) =>
                       a.id === article.id
                         ? {
                             ...a,
@@ -97,7 +98,7 @@ function Articles() {
                   ...oldData,
                   data: {
                     ...oldData.data,
-                    articles: oldData.data.articles.map((a: any) =>
+                    temp: oldData.data.temp.map((a: any) =>
                       a.id === article.id
                         ? {
                             ...a,
@@ -126,7 +127,7 @@ function Articles() {
             ...oldData,
             data: {
               ...oldData.data,
-              articles: oldData.data.articles.map((a: any) =>
+              temp: oldData.data.temp.map((a: any) =>
                 a.id === article.id ? { ...a, savedByUser } : a
               ),
             },
@@ -144,7 +145,7 @@ function Articles() {
                   ...oldData,
                   data: {
                     ...oldData.data,
-                    articles: oldData.data.articles.map((a: any) =>
+                    temp: oldData.data.temp.map((a: any) =>
                       a.id === article.id
                         ? { ...a, savedByUser: !savedByUser }
                         : a
@@ -165,7 +166,7 @@ function Articles() {
                   ...oldData,
                   data: {
                     ...oldData.data,
-                    articles: oldData.data.articles.map((a: any) =>
+                    atemp: oldData.data.temp.map((a: any) =>
                       a.id === article.id
                         ? { ...a, savedByUser: !savedByUser }
                         : a
@@ -181,7 +182,7 @@ function Articles() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col mr-[200px] pt-10 w-[600px] text-right gap-6">
+      <div className="flex flex-col mr-[150px] pt-10 w-[600px] text-right gap-6">
         {Array(3)
           .fill("")
           .map((_, index) => (
@@ -230,7 +231,7 @@ function Articles() {
   }
 
   return (
-    <div className="relative flex flex-col mr-[200px] pt-10 w-[600px] text-right gap-6">
+    <div className="relative flex flex-col mr-[150px] pt-10 w-[600px] text-right gap-6">
       {data?.data.temp.map(
         (article: Article, index: number) =>
           article.isVisible && (
@@ -264,9 +265,11 @@ function Articles() {
                 <div className="flex flex-row-reverse mt-5 justify-between w-full items-center">
                   <div className="flex flex-row-reverse text-right items-center justify-center gap-3 cursor-pointer">
                     {article.userAvatar ? (
-                      <img
+                      <Image
                         src={article.userAvatar}
                         alt=""
+                        width={36}
+                        height={36}
                         className="w-9 h-9 rounded-full"
                       />
                     ) : (
@@ -282,7 +285,7 @@ function Articles() {
                   <div className="flex gap-2 justify-center items-center">
                     {article.savedByUser ? (
                       <FaBookmark
-                        className="cursor-pointer text-yellow-500"
+                        className="cursor-pointer text-black"
                         onClick={() => handleToggleSave(article)}
                       />
                     ) : (
@@ -335,7 +338,9 @@ function Articles() {
                       "_"
                     )}`}
                   >
-                    <img
+                    <Image
+                      width={159}
+                      height={150}
                       src={article.author.avatar}
                       alt=""
                       className="h-[150px] w-[150px] cursor-pointer"

@@ -12,5 +12,6 @@ const api = {
   articleReport: `${process.env.NEXT_PUBLIC_API}/articles/report/`,
   articlePage: `${process.env.NEXT_PUBLIC_API}/articles/read/`,
   articleSearch: `${process.env.NEXT_PUBLIC_API}/articles/search?query=`,
+  createArticle: `${process.env.NEXT_PUBLIC_API}/articles`,
 };
 export default api;

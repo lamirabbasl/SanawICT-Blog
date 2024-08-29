@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
+  createArticle,
   fetchArticlePage,
   fetchArticles,
   fetchCategories,
@@ -123,5 +124,18 @@ export const useGetSearchArticle = (searchQuery: any) => {
   return useQuery({
     queryKey: ["searchArticle", searchQuery],
     queryFn: () => fetchArticlePage(searchQuery),
+  });
+};
+
+export const useCreateArticle = () => {
+  return useMutation({
+    mutationFn: (variables: {
+      title: string;
+      metaTitle: string;
+      content: string;
+      tags: string;
+      readTimeAsMin: number;
+      categoryId: number;
+    }) => createArticle(variables),
   });
 };

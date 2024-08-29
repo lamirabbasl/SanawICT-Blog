@@ -2,7 +2,7 @@
 
 import { useGetArticlePage } from "@/hooks/useArticles";
 
-function page({ params }: { params: any }) {
+function Page({ params }: { params: any }) {
   const { data, isError, isLoading } = useGetArticlePage(params.slug);
   return (
     <div className=" flex flex-row-reverse w-screen h-screen">
@@ -14,4 +14,4 @@ function page({ params }: { params: any }) {
   );
 }
 
-export default page;
+export default Page;

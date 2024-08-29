@@ -1,6 +1,7 @@
 "use client";
 
 import { useGetPopular } from "@/hooks/useArticles";
+import Image from "next/image";
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 
@@ -32,7 +33,7 @@ function Popular() {
       <h1 className="mx-auto mt-6 font-bold">محبوب ترین ها</h1>
       <div className="flex flex-col pt-3 w-[400px] text-right  overflow-auto h-[200px] custom-scrollbar">
         {data?.data?.temp?.map((article: any, index: any) => (
-          <Link href={`/articles/read/${article.id}`}>
+          <Link href={`/articles/read/${article.id}`} key={index}>
             <div
               className="flex flex-row-reverse w-full border-b-[1px] pb-2 justify-between items-center mt-3 pr-4 cursor-pointer"
               key={index}
@@ -42,7 +43,9 @@ function Popular() {
               </h1>
               <div className="flex justify-center items-center">
                 {article.avatar && !isError ? (
-                  <img
+                  <Image
+                    width={70}
+                    height={50}
                     src={article?.author?.avatar}
                     alt=""
                     className="h-[50px] w-[70px] cursor-pointer"
