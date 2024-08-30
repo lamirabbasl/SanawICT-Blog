@@ -268,3 +268,18 @@ export const createArticle = async ({
     throw new Error("Failed to save content.");
   }
 };
+
+export const fetchNotifications = async () => {
+  const response = await fetch(`${api.notifications}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};

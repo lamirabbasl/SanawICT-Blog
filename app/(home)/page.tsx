@@ -6,7 +6,7 @@ function page() {
   return (
     <div className="flex flex-row-reverse justify-between w-screen h-screen mt-[85px]  ">
       <Articles />
-      <div className=" fixed top-[20%] left-[40%] h-2/3 w-[1px] bg-secondery"></div>
+      <div className="fixed left-[40%] h-screen w-[2px] bg-secondery"></div>
       <Popular />
       <MostViewed />
     </div>

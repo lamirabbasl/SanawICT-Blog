@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-import { useCreateArticle } from "@/hooks/useArticles";
+import { useCreateArticle } from "@/hooks/useReactQuery";
 
 import Token from "@/utility/token";
 

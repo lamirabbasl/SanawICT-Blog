@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetPopular } from "@/hooks/useArticles";
+import { useGetPopular } from "@/hooks/useReactQuery";
 import Image from "next/image";
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
@@ -35,7 +35,7 @@ function Popular() {
         {data?.data?.temp?.map((article: any, index: any) => (
           <Link href={`/articles/read/${article.id}`} key={index}>
             <div
-              className="flex flex-row-reverse w-full border-b-[1px] pb-2 justify-between items-center mt-3 pr-4 cursor-pointer"
+              className="flex flex-row-reverse w-full border-b-[1px] pb-2 justify-between items-center mt-3 pr-4 cursor-pointer  hover:text-green-700"
               key={index}
             >
               <h1 className="font-bold text-[12px] cursor-pointer">

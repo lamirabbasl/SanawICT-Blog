@@ -13,5 +13,6 @@ const api = {
   articlePage: `${process.env.NEXT_PUBLIC_API}/articles/read/`,
   articleSearch: `${process.env.NEXT_PUBLIC_API}/articles/search?query=`,
   createArticle: `${process.env.NEXT_PUBLIC_API}/articles`,
+  notifications: `${process.env.NEXT_PUBLIC_API}/notifications`,
 };
 export default api;

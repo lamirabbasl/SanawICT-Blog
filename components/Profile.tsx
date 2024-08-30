@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetProfile } from "@/hooks/useArticles";
+import { useGetProfile } from "@/hooks/useReactQuery";
 import Image from "next/image";
 import { useState } from "react";
 import { IoPersonAddSharp } from "react-icons/io5";
@@ -58,7 +58,7 @@ function Profile() {
             <IoMdSettings className="" />
           </div>
         </button>
-        <div className="flex flex-row-reverse absolute justify-center mt-[350px] items-center gap-7 text-[15px]">
+        <div className="  flex flex-row-reverse  w-screen absolute justify-center mt-[350px] items-center gap-7 text-[15px]">
           <div
             className={
               tab == "articles"
@@ -94,11 +94,15 @@ function Profile() {
           </div>
         </div>
       </div>
-      <div className=" flex justify-center pl-[100px] items-centerw-screen h-full ">
+      <div className=" flex justify-center items-centerw-screen h-full ">
         {tab == "articles" ? (
-          <Articles />
+          <div className="ml-[120px]">
+            <Articles />
+          </div>
         ) : tab == "saved" ? (
-          <Articles />
+          <div className="ml-[120px]">
+            <Articles />
+          </div>
         ) : (
           <Notifications />
         )}

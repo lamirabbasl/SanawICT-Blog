@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetArticlePage } from "@/hooks/useArticles";
+import { useGetArticlePage } from "@/hooks/useReactQuery";
 
 function Page({ params }: { params: any }) {
   const { data, isError, isLoading } = useGetArticlePage(params.slug);

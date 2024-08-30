@@ -4,6 +4,7 @@ import {
   fetchArticlePage,
   fetchArticles,
   fetchCategories,
+  fetchNotifications,
   fetchPopular,
   fetchProfile,
   fetchViolationReportCases,
@@ -137,5 +138,12 @@ export const useCreateArticle = () => {
       readTimeAsMin: number;
       categoryId: number;
     }) => createArticle(variables),
+  });
+};
+
+export const useGetNotifications = () => {
+  return useQuery({
+    queryKey: ["notifications"],
+    queryFn: fetchNotifications,
   });
 };

@@ -23,6 +23,15 @@ const config: Config = {
         zain: ["Zain", "sans-serif"],
         noto: ["Noto Naskh Arabic", "sans-serif"],
       },
+      keyframes: {
+        borderExpand: {
+          "0%": { width: "0%", left: "50%" },
+          "100%": { width: "100%", left: "0%" },
+        },
+      },
+      animation: {
+        "border-expand": "borderExpand 1s ease-in-out forwards",
+      },
     },
   },
   plugins: [],

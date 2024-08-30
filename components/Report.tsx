@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import {
   useGetViolationReportCases,
   useReportArticle,
-} from "@/hooks/useArticles";
+} from "@/hooks/useReactQuery";
 
 function Report({
   articleId,

@@ -7,7 +7,7 @@ import {
   useUnlikeArticle,
   useSaveArticle,
   useUnsaveArticle,
-} from "@/hooks/useArticles";
+} from "@/hooks/useReactQuery";
 import { MdPerson, MdMoreVert } from "react-icons/md";
 import { FaRegHeart, FaHeart, FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { Article } from "@/utility/apiService";
@@ -230,15 +230,18 @@ function Articles() {
     );
   }
 
+  const reversedArticles = [...(data?.data.temp || [])].reverse();
+
   return (
-    <div className="relative flex flex-col mr-[150px] pt-10 w-[600px] text-right gap-6">
-      {data?.data.temp.map(
+    <div className="relative flex flex-col mr-[150px] pt-10 w-[600px] text-right gap-10">
+      {reversedArticles.map(
         (article: Article, index: number) =>
           article.isVisible && (
             <div
-              className="flex flex-row-reverse w-full border-b-[1px] pb-6 gap-6 mt-5"
+              className="relative flex flex-row-reverse w-full pb-6 gap-6 mt-3 hover:border-white border-b-[1px] border-gray-300 group"
               key={index}
             >
+              <span className="absolute bottom-0 left-1/2 h-[2px] w-0 bg-green-500 group-hover:w-full group-hover:left-0 transition-all duration-1000 ease-in-out group-hover:animate-border-expand"></span>
               <div className="flex flex-col w-full items-end gap-3">
                 <div className="flex items-end w-full justify-center flex-col gap-2">
                   <Link

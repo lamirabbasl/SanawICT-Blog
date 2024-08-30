@@ -26,7 +26,7 @@ import {
   ImageStyle,
   ImageTextAlternative,
   ImageToolbar,
-  ImageUpload,
+  SimpleUploadAdapter,
   Indent,
   IndentBlock,
   Italic,
@@ -64,6 +64,12 @@ export default function Ckeditor() {
   const editorRef = useRef<ClassicEditor | null>(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
   const [editorData, setEditorData] = useState<string>("");
+
+  const [title, setTitle] = useState("");
+  const [metaTitle, setMetaTitle] = useState("");
+  const [tags, setTags] = useState("");
+  const [readTimeAsMin, setReadTimeAsMin] = useState(1);
+  const [categoryId, setCategoryId] = useState(1);
 
   useEffect(() => {
     setIsLayoutReady(true);
@@ -124,7 +130,7 @@ export default function Ckeditor() {
       ImageStyle,
       ImageTextAlternative,
       ImageToolbar,
-      ImageUpload,
+      SimpleUploadAdapter,
       Indent,
       IndentBlock,
       Italic,
@@ -198,6 +204,15 @@ export default function Ckeditor() {
         },
       ],
     },
+    simpleUpload: {
+      uploadUrl: "/api/articles/fileUpload",
+      headers: {
+        "Content-Type": "multipart/form-data",
+        accept: "application/json",
+        Authorization: `Bearer ${Token}`,
+      },
+    },
+
     image: {
       toolbar: [
         "toggleImageCaption",
@@ -227,7 +242,6 @@ export default function Ckeditor() {
       const editorInstance = editorRef.current;
       const content = editorInstance.getData();
 
-      // Send a POST request to your API with the editor content
       try {
         const response = await fetch("/api/articles", {
           method: "POST",
@@ -236,25 +250,22 @@ export default function Ckeditor() {
             Authorization: `Bearer ${Token}`,
           },
           body: JSON.stringify({
-            title: "dev",
-            metaTitle: " devlope",
-            content: content,
-            tags: "dev",
-            readTimeAsMin: 1,
-            categoryId: 1,
-          }), // Adjust the payload structure as needed
+            title,
+            metaTitle,
+            content,
+            tags,
+            readTimeAsMin,
+            categoryId,
+          }),
         });
 
         if (response.ok) {
           console.log("Article saved successfully!");
-          // Handle success (e.g., show a notification, redirect, etc.)
         } else {
           console.error("Failed to save the article.");
-          // Handle error (e.g., show an error message)
         }
       } catch (error) {
         console.error("Error occurred while saving the article:", error);
-        // Handle error (e.g., show an error message)
       }
     }
   };
@@ -262,6 +273,36 @@ export default function Ckeditor() {
   return (
     <div>
       <div className="main-container">
+        <input
+          type="text"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Meta Title"
+          value={metaTitle}
+          onChange={(e) => setMetaTitle(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Tags"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
+        />
+        <input
+          type="number"
+          placeholder="Read Time (min)"
+          value={readTimeAsMin}
+          onChange={(e) => setReadTimeAsMin(Number(e.target.value))}
+        />
+        <input
+          type="number"
+          placeholder="Category ID"
+          value={categoryId}
+          onChange={(e) => setCategoryId(Number(e.target.value))}
+        />
         <div
           className="editor-container editor-container_classic-editor"
           ref={editorContainerRef}
@@ -273,15 +314,15 @@ export default function Ckeditor() {
                   editor={ClassicEditor}
                   config={editorConfig}
                   onReady={(editor) => {
-                    editorRef.current = editor; // Store the editor instance
+                    editorRef.current = editor;
                   }}
-                  data={editorData} // Set initial data (if any)
+                  data={editorData}
                   onChange={(_, editor) => {
-                    setEditorData(editor.getData()); // Update state with editor content
+                    setEditorData(editor.getData());
                   }}
                 />
               ) : (
-                <p> loading...</p>
+                <p>Loading...</p>
               )}
             </div>
           </div>
