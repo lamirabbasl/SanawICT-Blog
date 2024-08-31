@@ -1,4 +1,5 @@
 import api from "@/app/api/api";
+import Categories from "@/components/Categories";
 import Token from "@/utility/token";
 
 export interface Article {
@@ -157,21 +158,6 @@ export const fetchMostViewd = async () => {
   return response.json();
 };
 
-export const fetchViolationReportCases = async () => {
-  const response = await fetch(`${api.violationReportCases}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${Token}`,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error("Network response was not ok");
-  }
-  return response.json();
-};
-
 export const reportArticle = async ({
   articleId,
   description,
@@ -282,4 +268,144 @@ export const fetchNotifications = async () => {
     throw new Error("Network response was not ok");
   }
   return response.json();
+};
+
+export const deleteCategory = async (categoryId: number): Promise<void> => {
+  const response = await fetch(`${api.deleteCategory}${categoryId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+};
+
+export const createCategory = async (name: string): Promise<void> => {
+  const response = await fetch(`${api.createCategory}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+    body: JSON.stringify({
+      name,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+};
+
+export const editCategory = async ({
+  name,
+  id,
+}: {
+  name: string;
+  id: number;
+}): Promise<void> => {
+  const response = await fetch(`${api.editCategory}${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+    body: JSON.stringify({
+      name,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+};
+
+export const fetchViolationReports = async () => {
+  const response = await fetch(`${api.violationReports}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};
+
+export const fetchViolationReportCases = async () => {
+  const response = await fetch(`${api.violationReportCases}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};
+
+export const createViolationReportCase = async (
+  name: string
+): Promise<void> => {
+  const response = await fetch(`${api.createViolationReportsCase}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+    body: JSON.stringify({
+      name,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+};
+
+export const deleteViolationReportCase = async (id: number): Promise<void> => {
+  const response = await fetch(`${api.createViolationReportsCase}${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+};
+
+export const editViolationReportCase = async ({
+  name,
+  id,
+}: {
+  name: string;
+  id: number;
+}): Promise<void> => {
+  const response = await fetch(`${api.editViolationReportsCase}${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+    body: JSON.stringify({
+      name,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
 };

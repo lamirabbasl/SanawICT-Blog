@@ -18,7 +18,7 @@ import Report from "@/components/Report";
 import Link from "next/link";
 import Image from "next/image";
 
-function Articles() {
+function Articles({ user }: { user?: string }) {
   const { data, isLoading, isError } = useArticles();
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
   const [reportArticleId, setReportArticleId] = useState<number | null>(null);
@@ -182,7 +182,7 @@ function Articles() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col mr-[150px] pt-10 w-[600px] text-right gap-6">
+      <div className="flex flex-col pt-10 w-[600px] text-right gap-6">
         {Array(3)
           .fill("")
           .map((_, index) => (
@@ -233,7 +233,7 @@ function Articles() {
   const reversedArticles = [...(data?.data.temp || [])].reverse();
 
   return (
-    <div className="relative flex flex-col mr-[150px] pt-10 w-[600px] text-right gap-10">
+    <div className="relative flex flex-col pt-10 w-[600px] text-right gap-10">
       {reversedArticles.map(
         (article: Article, index: number) =>
           article.isVisible && (
@@ -241,7 +241,7 @@ function Articles() {
               className="relative flex flex-row-reverse w-full pb-6 gap-6 mt-3 hover:border-white border-b-[1px] border-gray-300 group"
               key={index}
             >
-              <span className="absolute bottom-0 left-1/2 h-[2px] w-0 bg-green-500 group-hover:w-full group-hover:left-0 transition-all duration-1000 ease-in-out group-hover:animate-border-expand"></span>
+              <span className="absolute bottom-0 left-1/2 h-[2px] w-0 bg-[#3CE1C4] group-hover:w-full group-hover:left-0 transition-all duration-1000 ease-in-out group-hover:animate-border-expand"></span>
               <div className="flex flex-col w-full items-end gap-3">
                 <div className="flex items-end w-full justify-center flex-col gap-2">
                   <Link
@@ -266,25 +266,28 @@ function Articles() {
                   </Link>
                 </div>
                 <div className="flex flex-row-reverse mt-5 justify-between w-full items-center">
-                  <div className="flex flex-row-reverse text-right items-center justify-center gap-3 cursor-pointer">
-                    {article.userAvatar ? (
-                      <Image
-                        src={article.userAvatar}
-                        alt=""
-                        width={36}
-                        height={36}
-                        className="w-9 h-9 rounded-full"
-                      />
-                    ) : (
-                      <MdPerson className="m-auto" />
-                    )}
-                    <div className="text-[10px]">
-                      <h2>{article.author.username}</h2>
-                      <p className="text-[8px] text-secondery2">
-                        {article.readTimeAsMin} دقیقه
-                      </p>
+                  <Link href={`/profile/${article.author.username}`}>
+                    <div className="flex flex-row-reverse text-right items-center justify-center gap-3 cursor-pointer">
+                      {article.userAvatar ? (
+                        <Image
+                          src={article.userAvatar}
+                          alt=""
+                          width={36}
+                          height={36}
+                          className="w-9 h-9 rounded-full"
+                        />
+                      ) : (
+                        <MdPerson className="m-auto" />
+                      )}
+                      <div className="text-[10px]">
+                        <h2>{article.author.username}</h2>
+                        <p className="text-[8px] text-secondery2">
+                          {article.readTimeAsMin} دقیقه
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
+
                   <div className="flex gap-2 justify-center items-center">
                     {article.savedByUser ? (
                       <FaBookmark
@@ -316,10 +319,10 @@ function Articles() {
                       onClick={() => toggleDropdown(article.id)}
                     />
                     {openDropdownId === article.id && (
-                      <div className="absolute mt-12  ml-[200px] w-[150px] bg-white border border-gray-300 shadow-md rounded-md z-50">
+                      <div className="absolute top-[100px] left-[205px]  w-[150px] bg-white border border-gray-300 shadow-md rounded-md z-50">
                         <ul className="text-[12px]">
                           <li
-                            className="p-2 cursor-pointer hover:bg-gray-100"
+                            className="p-2 cursor-pointer hover:bg-gray-100 border-b-[1px] border-gray-100"
                             onClick={() => {
                               toggleDropdown(article.id);
                               openModal(article.id);
@@ -327,6 +330,13 @@ function Articles() {
                           >
                             گزارش تخلف
                           </li>
+                          {user == "admin" ? (
+                            <li className="p-2 cursor-pointer text-red-600 font-bold hover:bg-gray-100">
+                              حذف مقاله
+                            </li>
+                          ) : (
+                            <></>
+                          )}
                         </ul>
                       </div>
                     )}

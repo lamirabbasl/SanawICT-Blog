@@ -20,7 +20,7 @@ function Navbar({ simple }: { simple?: boolean }) {
       <div className=" text-[23px] mr-12 font-bold cursor-pointer">
         <Link href={"/"}>
           <p>
-            Sanaw <span className="text-green-500">ICT</span>
+            Sanaw <span className="text-[#3CE1C4]">ICT</span>
           </p>
         </Link>
       </div>

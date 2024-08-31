@@ -1,6 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createArticle,
+  createCategory,
+  createViolationReportCase,
+  deleteCategory,
+  deleteViolationReportCase,
+  editCategory,
+  editViolationReportCase,
   fetchArticlePage,
   fetchArticles,
   fetchCategories,
@@ -8,6 +14,7 @@ import {
   fetchPopular,
   fetchProfile,
   fetchViolationReportCases,
+  fetchViolationReports,
   likeArticle,
   reportArticle,
   saveArticle,
@@ -94,13 +101,6 @@ export const useGetMostViewed = () => {
   });
 };
 
-export const useGetViolationReportCases = () => {
-  return useQuery({
-    queryKey: ["violationReportCases"],
-    queryFn: fetchViolationReportCases,
-  });
-};
-
 export const useReportArticle = () => {
   const queryClient = useQueryClient();
 
@@ -145,5 +145,87 @@ export const useGetNotifications = () => {
   return useQuery({
     queryKey: ["notifications"],
     queryFn: fetchNotifications,
+  });
+};
+
+export const useDeleteCategory = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: number) => deleteCategory(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+    },
+  });
+};
+
+export const useCreateCategory = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (name: string) => createCategory(name),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+    },
+  });
+};
+
+export const useEditCategory = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (variables: { name: string; id: number }) =>
+      editCategory(variables),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+    },
+  });
+};
+
+export const useGetViolationReports = () => {
+  return useQuery({
+    queryKey: ["violationReportsCases"],
+    queryFn: fetchViolationReports,
+  });
+};
+
+export const useCreateViolationReportCase = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (name: string) => createViolationReportCase(name),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["violationReportCases"] });
+    },
+  });
+};
+
+export const useDelteViolationReportCase = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: number) => deleteViolationReportCase(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["violationReportCases"] });
+    },
+  });
+};
+
+export const useEditeViolationReportCase = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (variables: { name: string; id: number }) =>
+      editViolationReportCase(variables),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["violationReportCases"] });
+    },
+  });
+};
+
+export const useGetViolationReportCases = () => {
+  return useQuery({
+    queryKey: ["violationReportCases"],
+    queryFn: fetchViolationReportCases,
   });
 };

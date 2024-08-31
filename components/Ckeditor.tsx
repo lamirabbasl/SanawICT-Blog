@@ -206,7 +206,9 @@ export default function Ckeditor() {
     },
     simpleUpload: {
       uploadUrl: "/api/articles/fileUpload",
+
       headers: {
+        "X-CSRF-TOKEN": "CSRF-Token",
         "Content-Type": "multipart/form-data",
         accept: "application/json",
         Authorization: `Bearer ${Token}`,

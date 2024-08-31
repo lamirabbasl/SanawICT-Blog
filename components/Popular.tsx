@@ -35,7 +35,7 @@ function Popular() {
         {data?.data?.temp?.map((article: any, index: any) => (
           <Link href={`/articles/read/${article.id}`} key={index}>
             <div
-              className="flex flex-row-reverse w-full border-b-[1px] pb-2 justify-between items-center mt-3 pr-4 cursor-pointer  hover:text-green-700"
+              className="flex flex-row-reverse w-full border-b-[1px] pb-2 justify-between items-center mt-3 pr-4 cursor-pointer  hover:text-[#3f9686]"
               key={index}
             >
               <h1 className="font-bold text-[12px] cursor-pointer">

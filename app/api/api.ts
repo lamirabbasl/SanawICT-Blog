@@ -14,5 +14,12 @@ const api = {
   articleSearch: `${process.env.NEXT_PUBLIC_API}/articles/search?query=`,
   createArticle: `${process.env.NEXT_PUBLIC_API}/articles`,
   notifications: `${process.env.NEXT_PUBLIC_API}/notifications`,
+  deleteCategory: `${process.env.NEXT_PUBLIC_API}/categories/`,
+  createCategory: `${process.env.NEXT_PUBLIC_API}/categories`,
+  editCategory: `${process.env.NEXT_PUBLIC_API}/categories/`,
+  violationReports: `${process.env.NEXT_PUBLIC_API}/ViolationReports`,
+  createViolationReportsCase: `${process.env.NEXT_PUBLIC_API}/violationReportCases/cases`,
+  deleteViolationReportsCase: `${process.env.NEXT_PUBLIC_API}/violationReportCases/cases/`,
+  editViolationReportsCase: `${process.env.NEXT_PUBLIC_API}/violationReportCases/cases/`,
 };
 export default api;
