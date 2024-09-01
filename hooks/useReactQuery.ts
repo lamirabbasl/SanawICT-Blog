@@ -13,6 +13,8 @@ import {
   fetchNotifications,
   fetchPopular,
   fetchProfile,
+  fetchSearchArticle,
+  fetchSearchArticleQuery,
   fetchViolationReportCases,
   fetchViolationReports,
   likeArticle,
@@ -123,8 +125,8 @@ export const useGetArticlePage = (articleSlug: any) => {
 
 export const useGetSearchArticle = (searchQuery: any) => {
   return useQuery({
-    queryKey: ["searchArticle", searchQuery],
-    queryFn: () => fetchArticlePage(searchQuery),
+    queryKey: ["searchArticle"],
+    queryFn: () => fetchSearchArticleQuery(searchQuery),
   });
 };
 

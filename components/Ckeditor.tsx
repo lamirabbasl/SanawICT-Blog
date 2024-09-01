@@ -208,9 +208,8 @@ export default function Ckeditor() {
       uploadUrl: "/api/articles/fileUpload",
 
       headers: {
-        "X-CSRF-TOKEN": "CSRF-Token",
-        "Content-Type": "multipart/form-data",
         accept: "application/json",
+        "content-type": "*/*",
         Authorization: `Bearer ${Token}`,
       },
     },

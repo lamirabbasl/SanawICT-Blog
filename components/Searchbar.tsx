@@ -31,7 +31,7 @@ function Searchbar() {
         />
         <IoIosSearch
           className="text-[20px] mr-4 cursor-pointer max-lg:text-[15px]"
-          onClick={handleSearch} // Ensure the click also triggers the search
+          onClick={handleSearch}
         />
       </form>
     </div>

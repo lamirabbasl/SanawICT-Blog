@@ -1,5 +1,4 @@
 import api from "@/app/api/api";
-import Categories from "@/components/Categories";
 import Token from "@/utility/token";
 
 export interface Article {
@@ -408,4 +407,40 @@ export const editViolationReportCase = async ({
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
+};
+
+export const fetchSearchArticleQuery = async (searchQuery: string | null) => {
+  if (!searchQuery) {
+    return {
+      data: {
+        articles: [], // Return an empty articles array if query is invalid or empty
+      },
+    };
+  }
+
+  const response = await fetch(
+    `${api.articleSearch}${encodeURIComponent(searchQuery)}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const data = await response.json();
+
+  // Ensure data has a consistent structure
+  return (
+    data || {
+      data: {
+        articles: [], // Fallback to an empty array if no articles are found
+      },
+    }
+  );
 };
