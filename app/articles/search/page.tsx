@@ -19,7 +19,7 @@ import {
   useUnsaveArticle,
 } from "@/hooks/useReactQuery";
 
-const SearchPage = ({ user }: { user?: string }) => {
+const SearchPage = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("query");
 
@@ -337,13 +337,6 @@ const SearchPage = ({ user }: { user?: string }) => {
                           >
                             گزارش تخلف
                           </li>
-                          {user == "admin" ? (
-                            <li className="p-2 cursor-pointer text-red-600 font-bold hover:bg-gray-100">
-                              حذف مقاله
-                            </li>
-                          ) : (
-                            <></>
-                          )}
                         </ul>
                       </div>
                     )}

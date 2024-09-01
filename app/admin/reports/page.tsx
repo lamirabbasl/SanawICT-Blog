@@ -1,3 +1,5 @@
+"use client";
+
 import ControllPanel from "@/components/ControllPanel";
 import {
   useCreateViolationReportCase,
