@@ -1,23 +1,20 @@
-FROM node AS builder
+# Use an official Node.js runtime as a parent image
+FROM node:18
 
+# Set the working directory
 WORKDIR /app
 
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
+# Install dependencies
 RUN npm install
 
+# Copy the rest of the application code
 COPY . .
 
-RUN npm run build
-
-FROM node AS runner
-
-WORKDIR /app
-
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-
+# Expose the port the app runs on
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+# Command to start the application in development mode
+CMD ["npm", "run", "dev"]
