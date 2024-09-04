@@ -1,5 +1,6 @@
 "use client";
 
+import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import React from "react";
 import { TbError404 } from "react-icons/tb";

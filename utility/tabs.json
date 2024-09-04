@@ -1,0 +1,38 @@
+{
+  "tabs": [
+    {
+      "elements": [
+        {
+          "id": "profile",
+          "name": "پروفایل",
+          "path": "profile/me"
+        },
+        {
+          "id": "articles",
+          "name": "مقالات",
+          "path": "/"
+        },
+        {
+          "id": "category",
+          "name": "دسته بندی ها",
+          "path": "categories"
+        },
+        {
+          "id": "notifications",
+          "name": "پیام ها",
+          "path": "notifications"
+        },
+        {
+          "id": "orders",
+          "name": "نوشتن مقاله",
+          "path": "articles/create"
+        },
+        {
+          "id": "orders",
+          "name": "دخیره شده ها",
+          "path": "saved"
+        }
+      ]
+    }
+  ]
+}

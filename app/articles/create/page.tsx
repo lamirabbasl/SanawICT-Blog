@@ -4,7 +4,7 @@ const Ckeditor = dynamic(() => import("@/components/Ckeditor"), { ssr: false });
 
 function Page() {
   return (
-    <div className=" w-screen h-screen mt-28">
+    <div className=" w-screen h-screen mt-16">
       <Ckeditor />
     </div>
   );

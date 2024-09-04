@@ -22,6 +22,7 @@ const config: Config = {
         lalezar: ["Lalezar", "sans-serif"],
         zain: ["Zain", "sans-serif"],
         noto: ["Noto Naskh Arabic", "sans-serif"],
+        vazir: ["Vazir", "sans-serif"],
       },
       keyframes: {
         borderExpand: {

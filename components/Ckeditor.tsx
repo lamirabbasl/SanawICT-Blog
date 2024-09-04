@@ -6,17 +6,19 @@ import Token from "@/utility/token";
 
 import {
   ClassicEditor,
+  Alignment,
   AccessibilityHelp,
   Autoformat,
   AutoImage,
   Autosave,
-  Base64UploadAdapter,
   BlockQuote,
   Bold,
+  PageBreak,
   Code,
   Essentials,
   Heading,
   Highlight,
+  Font,
   ImageBlock,
   ImageCaption,
   ImageInline,
@@ -37,13 +39,6 @@ import {
   Paragraph,
   PasteFromOffice,
   SelectAll,
-  SpecialCharacters,
-  SpecialCharactersArrows,
-  SpecialCharactersCurrency,
-  SpecialCharactersEssentials,
-  SpecialCharactersLatin,
-  SpecialCharactersMathematical,
-  SpecialCharactersText,
   Table,
   TableCaption,
   TableCellProperties,
@@ -83,16 +78,22 @@ export default function Ckeditor() {
         "undo",
         "redo",
         "|",
-        "selectAll",
-        "|",
         "heading",
+        "|",
+        "fontSize",
+        "fontFamily",
+        "fontColor",
         "|",
         "bold",
         "italic",
         "underline",
         "code",
         "|",
-        "specialCharacters",
+        "alignment:left",
+        "alignment:right",
+        "alignment:center",
+        "alignment:justify",
+        "|",
         "link",
         "insertImage",
         "insertTable",
@@ -105,6 +106,8 @@ export default function Ckeditor() {
         "outdent",
         "indent",
         "|",
+        "pageBreak",
+        "|",
         "accessibilityHelp",
       ],
       shouldNotGroupWhenFull: false,
@@ -112,15 +115,17 @@ export default function Ckeditor() {
     plugins: [
       AccessibilityHelp,
       Autoformat,
+      Alignment,
       AutoImage,
       Autosave,
-      Base64UploadAdapter,
       BlockQuote,
       Bold,
+      PageBreak,
       Code,
       Essentials,
       Heading,
       Highlight,
+      Font,
       ImageBlock,
       ImageCaption,
       ImageInline,
@@ -141,13 +146,6 @@ export default function Ckeditor() {
       Paragraph,
       PasteFromOffice,
       SelectAll,
-      SpecialCharacters,
-      SpecialCharactersArrows,
-      SpecialCharactersCurrency,
-      SpecialCharactersEssentials,
-      SpecialCharactersLatin,
-      SpecialCharactersMathematical,
-      SpecialCharactersText,
       Table,
       TableCaption,
       TableCellProperties,
@@ -205,13 +203,28 @@ export default function Ckeditor() {
       ],
     },
     simpleUpload: {
-      uploadUrl: "/api/articles/fileUpload",
+      uploadUrl: `/api/articles/fileUpload`,
 
       headers: {
         accept: "application/json",
         "content-type": "*/*",
         Authorization: `Bearer ${Token}`,
       },
+    },
+    fontFamily: {
+      options: [
+        "default",
+        "vazir",
+        "lalezar",
+        "Arial, Helvetica, sans-serif",
+        "Courier New, Courier, monospace",
+        "Georgia, serif",
+        "Lucida Sans Unicode, Lucida Grande, sans-serif",
+        "Tahoma, Geneva, sans-serif",
+        "Times New Roman, Times, serif",
+        "Trebuchet MS, Helvetica, sans-serif",
+        "Verdana, Geneva, sans-serif",
+      ],
     },
 
     image: {
@@ -273,37 +286,44 @@ export default function Ckeditor() {
 
   return (
     <div>
-      <div className="main-container">
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Meta Title"
-          value={metaTitle}
-          onChange={(e) => setMetaTitle(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Tags"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Read Time (min)"
-          value={readTimeAsMin}
-          onChange={(e) => setReadTimeAsMin(Number(e.target.value))}
-        />
-        <input
-          type="number"
-          placeholder="Category ID"
-          value={categoryId}
-          onChange={(e) => setCategoryId(Number(e.target.value))}
-        />
+      <div className="main-container relative  w-screen h-screen flex flex-col gap-6 items-center justify-center ">
+        <div className=" flex  flex-row-reverse items-start mb-28">
+          <div className=" flex flex-col">
+            <label htmlFor="" className=" font-vazir">
+              عنوان مقاله
+            </label>
+            <input
+              type="text"
+              placeholder="asmn"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+          <textarea
+            placeholder="Meta Title"
+            value={metaTitle}
+            onChange={(e) => setMetaTitle(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Tags"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Read Time (min)"
+            value={readTimeAsMin}
+            onChange={(e) => setReadTimeAsMin(Number(e.target.value))}
+          />
+          <input
+            type="number"
+            placeholder="Category ID"
+            value={categoryId}
+            onChange={(e) => setCategoryId(Number(e.target.value))}
+          />
+        </div>
+
         <div
           className="editor-container editor-container_classic-editor"
           ref={editorContainerRef}
@@ -316,6 +336,13 @@ export default function Ckeditor() {
                   config={editorConfig}
                   onReady={(editor) => {
                     editorRef.current = editor;
+                    editor.editing.view.change((writer) => {
+                      writer.setStyle(
+                        "height",
+                        "300px",
+                        editor.editing.view.document.getRoot()
+                      );
+                    });
                   }}
                   data={editorData}
                   onChange={(_, editor) => {

@@ -1,0 +1,43 @@
+{
+  "tabs": [
+    {
+      "elements": [
+        {
+          "id": "profile",
+          "name": "پروفایل",
+          "path": "profile/me"
+        },
+        {
+          "id": "articles",
+          "name": "مقالات",
+          "path": "/"
+        },
+        {
+          "id": "category",
+          "name": "دسته بندی ها",
+          "path": "categories"
+        },
+        {
+          "id": "notifications",
+          "name": "پیام ها",
+          "path": "/notifications"
+        },
+        {
+          "id": "orders",
+          "name": "مدیریت مقالات",
+          "path": "admin/articles"
+        },
+        {
+          "id": "inputs",
+          "name": "مدیریت دسته بندی ها",
+          "path": "admin/categories"
+        },
+        {
+          "id": "outputs",
+          "name": "مدیریت گزارشات",
+          "path": "admin/reports"
+        }
+      ]
+    }
+  ]
+}

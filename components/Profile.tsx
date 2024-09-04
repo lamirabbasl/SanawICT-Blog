@@ -13,7 +13,7 @@ function Profile() {
   const [tab, setTab] = useState("articles");
 
   if (isLoading) {
-    return <p>Loading...</p>; // or a spinner
+    return <p>Loading...</p>;
   }
 
   if (isError) {

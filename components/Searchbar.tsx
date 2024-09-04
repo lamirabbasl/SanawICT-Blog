@@ -17,9 +17,9 @@ function Searchbar() {
   };
 
   return (
-    <div className="flex justify-center items-center w-[700px] h-full max-lg:w-[300px]">
+    <div className="flex justify-center items-center w-[700px] h-full max-lg:w-1/2">
       <form
-        className="w-5/6 h-[39px] flex justify-center items-center mr-[30px] bg-secondery rounded-[45px] max-lg:h-[30px] max-lg:mr-0 max-lg:ml-6"
+        className="w-5/6 h-[39px] flex justify-center items-center mr-[30px] bg-secondery rounded-[45px] max-lg:h-[36px] max-lg:mr-0 max-lg:ml-6"
         onSubmit={handleSearch}
       >
         <input

@@ -1,15 +1,5 @@
 "use client";
 
-import { MdPerson, MdMoreVert } from "react-icons/md";
-import { FaRegHeart, FaHeart, FaRegBookmark, FaBookmark } from "react-icons/fa";
-import { Article } from "@/utility/apiService";
-import { useQueryClient } from "@tanstack/react-query";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import Report from "@/components/Report";
-import Link from "next/link";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import {
   useGetSearchArticle,
@@ -18,14 +8,22 @@ import {
   useSaveArticle,
   useUnsaveArticle,
 } from "@/hooks/useReactQuery";
+import { MdPerson, MdMoreVert } from "react-icons/md";
+import { FaRegHeart, FaHeart, FaRegBookmark, FaBookmark } from "react-icons/fa";
+import { Article } from "@/types/Article";
+import { useQueryClient } from "@tanstack/react-query";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import Report from "@/components/Report";
+import Link from "next/link";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("query");
 
-  // Use the custom hook to fetch the search results
   const { data, isLoading, isError } = useGetSearchArticle(query);
-
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
   const [reportArticleId, setReportArticleId] = useState<number | null>(null);
 
@@ -61,7 +59,7 @@ const SearchPage = () => {
             ...oldData,
             data: {
               ...oldData.data,
-              articles: oldData.data.articles.map((a: any) =>
+              temp: oldData.data.temp.map((a: any) =>
                 a.id === article.id ? { ...a, likedByUser, likeCount } : a
               ),
             },
@@ -78,7 +76,7 @@ const SearchPage = () => {
                   ...oldData,
                   data: {
                     ...oldData.data,
-                    articles: oldData.data.articles.map((a: any) =>
+                    temp: oldData.data.temp.map((a: any) =>
                       a.id === article.id
                         ? {
                             ...a,
@@ -102,7 +100,7 @@ const SearchPage = () => {
                   ...oldData,
                   data: {
                     ...oldData.data,
-                    articles: oldData.data.articles.map((a: any) =>
+                    temp: oldData.data.temp.map((a: any) =>
                       a.id === article.id
                         ? {
                             ...a,
@@ -131,7 +129,7 @@ const SearchPage = () => {
             ...oldData,
             data: {
               ...oldData.data,
-              articles: oldData.data.articles.map((a: any) =>
+              temp: oldData.data.temp.map((a: any) =>
                 a.id === article.id ? { ...a, savedByUser } : a
               ),
             },
@@ -148,7 +146,7 @@ const SearchPage = () => {
                   ...oldData,
                   data: {
                     ...oldData.data,
-                    articles: oldData.data.articles.map((a: any) =>
+                    temp: oldData.data.temp.map((a: any) =>
                       a.id === article.id
                         ? { ...a, savedByUser: !savedByUser }
                         : a
@@ -168,7 +166,7 @@ const SearchPage = () => {
                   ...oldData,
                   data: {
                     ...oldData.data,
-                    articles: oldData.data.articles.map((a: any) =>
+                    temp: oldData.data.temp.map((a: any) =>
                       a.id === article.id
                         ? { ...a, savedByUser: !savedByUser }
                         : a
@@ -188,7 +186,7 @@ const SearchPage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col pt-10 w-[600px] text-right gap-6">
+      <div className="flex m-auto flex-col w-[600px] max-lg:w-5/6 mt-28 text-right gap-6">
         {Array(3)
           .fill("")
           .map((_, index) => (
@@ -205,7 +203,7 @@ const SearchPage = () => {
                   <Skeleton width={`60%`} height={15} />
                 </div>
                 <div className="flex flex-row-reverse mt-5 justify-between w-full items-center">
-                  <div className="absolute mb-[145px]">
+                  <div className=" absolute mb-[145px]">
                     <Skeleton height={30} width={170} />
                   </div>
                   <div className="flex flex-row-reverse text-right items-center justify-center gap-3">
@@ -230,15 +228,17 @@ const SearchPage = () => {
 
   if (isError) {
     return (
-      <div className="absolute right-[300px] top-[270px] flex flex-col items-center justify-center h-[300px] w-[300px]">
+      <div className=" absolute right-[300px] top-[270px] flex flex-col items-center justify-center h-[300px] w-[300px]">
         <p className="text-red-500 text-lg">Something Went Wrong</p>
       </div>
     );
   }
 
+  const reversedArticles = [...(data?.data.articles || [])].reverse();
+
   return (
-    <div className="relative flex flex-col pt-10 w-[600px] text-right gap-10">
-      {data?.data.articles.map(
+    <div className="relative flex flex-col m-auto mt-32 w-[600px] max-lg:w-5/6 text-right gap-10">
+      {reversedArticles.map(
         (article: Article, index: number) =>
           article.isVisible && (
             <div
@@ -270,10 +270,7 @@ const SearchPage = () => {
                   </Link>
                 </div>
                 <div className="flex flex-row-reverse mt-5 justify-between w-full items-center">
-                  <Link
-                    href="/"
-                    //   {`/profile/${article.author.username}`}
-                  >
+                  {/* <Link href={`/profile/${article.author.username}`}>
                     <div className="flex flex-row-reverse text-right items-center justify-center gap-3 cursor-pointer">
                       {article.userAvatar ? (
                         <Image
@@ -287,13 +284,13 @@ const SearchPage = () => {
                         <MdPerson className="m-auto" />
                       )}
                       <div className="text-[10px]">
-                        {/* <h2>{article.author.username}</h2> */}
+                        <h2>{article.author.username}</h2>
                         <p className="text-[8px] text-secondery2">
                           {article.readTimeAsMin} دقیقه
                         </p>
                       </div>
                     </div>
-                  </Link>
+                  </Link> */}
 
                   <div className="flex gap-2 justify-center items-center">
                     {article.savedByUser ? (
@@ -344,37 +341,31 @@ const SearchPage = () => {
                 </div>
               </div>
               <div className="flex justify-center items-center">
-                {
-                  // article.author.avatar &&
-                  !isError && 0 ? (
-                    <Link
-                      href={`/articles/read/${article.title.replace(
-                        /\s+/g,
-                        "_"
-                      )}`}
-                    >
-                      <Image
-                        width={159}
-                        height={150}
-                        src={
-                          ""
-                          // article.author.avatar
-                        }
-                        alt=""
-                        className="h-[150px] w-[150px] cursor-pointer"
-                      />
-                    </Link>
-                  ) : (
-                    <Link
-                      href={`/articles/read/${article.title.replace(
-                        /\s+/g,
-                        "_"
-                      )}`}
-                    >
-                      <div className="bg-secondery h-[100px] w-[120px] cursor-pointer"></div>
-                    </Link>
-                  )
-                }
+                {0 && !isError ? (
+                  <Link
+                    href={`/articles/read/${article.title.replace(
+                      /\s+/g,
+                      "_"
+                    )}`}
+                  >
+                    <Image
+                      width={159}
+                      height={150}
+                      src={""}
+                      alt=""
+                      className="h-[150px] w-[150px] cursor-pointer"
+                    />
+                  </Link>
+                ) : (
+                  <Link
+                    href={`/articles/read/${article.title.replace(
+                      /\s+/g,
+                      "_"
+                    )}`}
+                  >
+                    <div className="bg-secondery h-[100px] w-[120px] cursor-pointer"></div>
+                  </Link>
+                )}
               </div>
               {reportArticleId === article.id && (
                 <Report articleId={article.id} onClose={closeModal} />

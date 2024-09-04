@@ -10,7 +10,7 @@ import {
 } from "@/hooks/useReactQuery";
 import { MdPerson, MdMoreVert } from "react-icons/md";
 import { FaRegHeart, FaHeart, FaRegBookmark, FaBookmark } from "react-icons/fa";
-import { Article } from "@/utility/apiService";
+import { Article } from "@/types/Article";
 import { useQueryClient } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -182,7 +182,7 @@ function Articles({ user }: { user?: string }) {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col pt-10 w-[600px] text-right gap-6">
+      <div className="flex flex-col pt-10 w-[600px] max-lg:w-5/6 text-right gap-6">
         {Array(3)
           .fill("")
           .map((_, index) => (
@@ -233,12 +233,12 @@ function Articles({ user }: { user?: string }) {
   const reversedArticles = [...(data?.data.temp || [])].reverse();
 
   return (
-    <div className="relative flex flex-col pt-10 w-[600px] text-right gap-10">
+    <div className="relative flex flex-col pt-10 w-[600px] max-lg:w-full text-right gap-10">
       {reversedArticles.map(
         (article: Article, index: number) =>
           article.isVisible && (
             <div
-              className="relative flex flex-row-reverse w-full pb-6 gap-6 mt-3 hover:border-white border-b-[1px] border-gray-300 group"
+              className="relative flex flex-row-reverse w-full pb-6 gap-6 mt-3 hover:border-white border-b-[1px] border-gray-300 group "
               key={index}
             >
               <span className="absolute bottom-0 left-1/2 h-[2px] w-0 bg-[#3CE1C4] group-hover:w-full group-hover:left-0 transition-all duration-1000 ease-in-out group-hover:animate-border-expand"></span>

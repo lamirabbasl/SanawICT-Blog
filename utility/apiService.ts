@@ -1,30 +1,6 @@
 import api from "@/app/api/api";
 import Token from "@/utility/token";
-
-export interface Article {
-  id: number;
-  title: string;
-  metaTitle: string;
-  isVisible: boolean;
-  isLiked: boolean;
-  likeCount: number;
-  userAvatar?: string;
-  tags?: [string];
-  isDraft: boolean;
-  savedByUser: boolean;
-  likedByUser: boolean;
-  author: {
-    username: string;
-    avatar?: string;
-  };
-  readTimeAsMin: number;
-}
-
-interface ArticlesResponse {
-  data: {
-    temp: Article[];
-  };
-}
+import { ArticlesResponse } from "@/types/Article";
 
 export const fetchArticles = async (): Promise<ArticlesResponse> => {
   const response = await fetch(api.articles, {

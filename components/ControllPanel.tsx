@@ -68,7 +68,7 @@ function ControllPanel({
     try {
       await onCreateItem(name);
       setIsAddModalOpen(false);
-      setNewItemName(""); // Clear the input after submission
+      setNewItemName("");
     } catch (error) {
       console.error("Failed to create item:", error);
     }
@@ -82,7 +82,7 @@ function ControllPanel({
           : "w-screen h-screen flex items-center justify-center flex-row-reverse gap-2 bg-primary shadow-md pr-6 z-20 relative"
       }
     >
-      <div className="absolute top-[120px] right-8 flex-row-reverse flex flex-wrap gap-5 w-1/3">
+      <div className="absolute top-[120px] right-8 flex-row-reverse flex flex-wrap gap-5 w-1/3 max-lg:w-full">
         {items.map((item, index) => (
           <div
             className="relative inline-flex rounded-full bg-secondery px-3 pt-2 pb-1 cursor-default justify-center"

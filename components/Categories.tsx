@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useGetCategories } from "@/hooks/useReactQuery";
 
 function Categories() {
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState<number>();
   const { data, isLoading, isError, refetch } = useGetCategories();
 
   return (
     <div className=" sticky top-[90px] flex  items-center flex-row-reverse gap-2 w-screen h-[45px] bg-primary shadow-md pr-6 z-40">
-      {data?.data?.categories.map((category: any, index: any) => (
+      {data?.data?.categories.map((category: any, index: number) => (
         <div
           className={
             selected == index
