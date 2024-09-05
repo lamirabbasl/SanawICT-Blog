@@ -37,7 +37,7 @@ function Menu({ user }: { user?: string }) {
   else Data = tabsData;
 
   return (
-    <div className="xl:hidden ">
+    <div className="lg:hidden ">
       {open ? (
         <>
           <div className="fixed inset-0 z-50 bg-black opacity-85 left-0 top-0 h-screen w-screen "></div>

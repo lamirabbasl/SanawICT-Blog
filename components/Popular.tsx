@@ -11,7 +11,7 @@ function Popular() {
 
   if (isLoading) {
     return (
-      <div className="fixed flex flex-col items-center top-[150px] left-0 w-[40%]">
+      <div className="fixed flex flex-col items-center top-[200px] left-0 w-[40%]">
         <h1 className="mx-auto mt-6 font-bold">محبوب ترین ها</h1>
         <div className="flex flex-col pt-3 w-[400px] text-right overflow-auto h-[200px] custom-scrollbar">
           {Array(3)
@@ -31,7 +31,7 @@ function Popular() {
   }
 
   return (
-    <div className="fixed flex flex-col items-center top-[150px] left-0 w-[40%]">
+    <div className="fixed flex flex-col items-center top-[200px] left-0 w-[40%]">
       <h1 className="mx-auto mt-6 font-bold">محبوب ترین ها</h1>
       <div className="flex flex-col pt-3 w-[400px] text-right overflow-auto h-[200px] custom-scrollbar">
         {data?.data?.temp?.map((article: Article, index: number) => (
@@ -53,7 +53,7 @@ function Popular() {
                     className="h-[50px] w-[70px] cursor-pointer"
                   />
                 ) : (
-                  <div className="bg-secondary h-[40px] w-[60px] cursor-pointer"></div>
+                  <div className="bg-secondery h-[40px] w-[60px] cursor-pointer"></div>
                 )}
               </div>
             </div>

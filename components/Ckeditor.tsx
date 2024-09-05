@@ -53,6 +53,7 @@ import {
 } from "ckeditor5";
 
 import "ckeditor5/ckeditor5.css";
+import { useGetCategories } from "@/hooks/useReactQuery";
 
 export default function Ckeditor() {
   const editorContainerRef = useRef<HTMLDivElement | null>(null);
@@ -63,8 +64,10 @@ export default function Ckeditor() {
   const [title, setTitle] = useState("");
   const [metaTitle, setMetaTitle] = useState("");
   const [tags, setTags] = useState("");
-  const [readTimeAsMin, setReadTimeAsMin] = useState(1);
+  const [readTimeAsMin, setReadTimeAsMin] = useState(0);
   const [categoryId, setCategoryId] = useState(1);
+  const [selected, setSelected] = useState<number>();
+  const { data, isLoading, isError, refetch } = useGetCategories();
 
   useEffect(() => {
     setIsLayoutReady(true);
@@ -285,44 +288,76 @@ export default function Ckeditor() {
   };
 
   return (
-    <div>
-      <div className="main-container relative  w-screen h-screen flex flex-col gap-6 items-center justify-center ">
-        <div className=" flex  flex-row-reverse items-start mb-28">
-          <div className=" flex flex-col">
-            <label htmlFor="" className=" font-vazir">
+    <div className="pb-28 w-screen">
+      <div className="main-container  relative text-xs w-screen h-screen flex flex-col gap-6 items-center justify-center ">
+        <form className=" flex  max-md:flex-col w-5/6  max-md:mt-[270px] text-[18px] max-md:gap-9 flex-row-reverse items-center mb-28  max-md:mb-6 gap-16  justify-center  font-vazir">
+          <div className=" flex flex-col gap-6 ">
+            <label htmlFor="title" className=" text-right">
               عنوان مقاله
             </label>
             <input
+              id="title"
               type="text"
-              placeholder="asmn"
+              placeholder="عنوان را وارد کنید"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              className=" border-b-2 border-green-500 text-xs ring-gray-300 placeholder:text-right  placeholder:text-xs focus:text-right  rounded-sm  outline-none"
             />
           </div>
-          <textarea
-            placeholder="Meta Title"
-            value={metaTitle}
-            onChange={(e) => setMetaTitle(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Tags"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Read Time (min)"
-            value={readTimeAsMin}
-            onChange={(e) => setReadTimeAsMin(Number(e.target.value))}
-          />
-          <input
-            type="number"
-            placeholder="Category ID"
-            value={categoryId}
-            onChange={(e) => setCategoryId(Number(e.target.value))}
-          />
-        </div>
+          <div className=" flex flex-col gap-6 ">
+            <label htmlFor="metaTitle" className=" text-right">
+              خلاصه مقاله
+            </label>
+            <input
+              placeholder="متن را وارد کنید"
+              value={metaTitle}
+              onChange={(e) => setMetaTitle(e.target.value)}
+              className=" border-b-2 border-green-500  text-xs placeholder:text-right  placeholder:text-xs focus:text-right  rounded-sm   outline-none"
+            />
+          </div>
+          <div className=" flex flex-col gap-6">
+            <label htmlFor="tags" className=" text-right">
+              تگ ها
+            </label>
+            <input
+              type="text"
+              placeholder="تگ را مقاله را وارد کنید"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              className="  border-b-2 border-green-500 text-xs placeholder:text-right  placeholder:text-xs focus:text-right  rounded-sm outline-none"
+            />
+          </div>
+          <div className=" flex flex-col gap-6 justify-center items-center">
+            <label htmlFor="tags" className="">
+              مدت زمان مطالعه
+            </label>
+            <input
+              type="number"
+              value={readTimeAsMin}
+              onChange={(e) => setReadTimeAsMin(Number(e.target.value))}
+              className=" w-6 text-center  border-b-2  border-green-500 text-xs placeholder:text-right  placeholder:text-xs focus:text-center  rounded-sm outline-none"
+            />
+          </div>
+
+          <div className="flex mr-20 mt-10 rounded-xl max-md:mt-20  max-md:w-full relative flex-wrap w-1/6 items-center flex-row-reverse gap-2 bg-primary ">
+            <p className=" absolute  -top-10 right-[70px] max-md:right-[80px]">
+              دسته بندی
+            </p>
+            {data?.data?.categories.map((category: any, index: number) => (
+              <div
+                className={
+                  selected == index
+                    ? " flex rounded-full bg-gray-600 text-white px-3 pt-2 pb-1 cursor-pointer"
+                    : " flex rounded-full bg-secondery px-3 pt-2 pb-1 cursor-pointer"
+                }
+                key={index}
+                onClick={() => setSelected(index)}
+              >
+                <p className=" text-center text-[12px]">{category.name}</p>
+              </div>
+            ))}
+          </div>
+        </form>
 
         <div
           className="editor-container editor-container_classic-editor"
@@ -339,7 +374,7 @@ export default function Ckeditor() {
                     editor.editing.view.change((writer) => {
                       writer.setStyle(
                         "height",
-                        "300px",
+                        "400px",
                         editor.editing.view.document.getRoot()
                       );
                     });
@@ -356,7 +391,14 @@ export default function Ckeditor() {
           </div>
         </div>
       </div>
-      <button onClick={handleSaveArticle}>Save Article</button>
+      <div className="flex w-screen  items-center justify-center">
+        <button
+          onClick={handleSaveArticle}
+          className="  rounded-md  px-3 py-1  text-white font-vazir bg-green-500"
+        >
+          انتشار مقاله
+        </button>
+      </div>
     </div>
   );
 }

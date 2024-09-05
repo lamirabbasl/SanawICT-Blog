@@ -182,8 +182,8 @@ function Articles({ user }: { user?: string }) {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col pt-10 w-[600px] max-lg:w-5/6 text-right gap-6">
-        {Array(3)
+      <div className="flex flex-col pt-10 w-[700px] max-lg:w-5/6 text-right gap-6">
+        {Array(5)
           .fill("")
           .map((_, index) => (
             <div
@@ -233,7 +233,7 @@ function Articles({ user }: { user?: string }) {
   const reversedArticles = [...(data?.data.temp || [])].reverse();
 
   return (
-    <div className="relative flex flex-col pt-10 w-[600px] max-lg:w-full text-right gap-10">
+    <div className="relative flex flex-col pt-10 w-[700px] max-lg:w-full text-right gap-10">
       {reversedArticles.map(
         (article: Article, index: number) =>
           article.isVisible && (

@@ -11,7 +11,7 @@ function MostViewed() {
 
   if (isLoading)
     return (
-      <div className="fixed flex flex-col items-center top-[450px] left-0 w-[40%]">
+      <div className="fixed flex flex-col items-center top-[550px] left-0 w-[40%]">
         <h1 className="mx-auto mt-6 font-bold">محبوب ترین ها</h1>
         <div className="flex flex-col pt-3 w-[400px] text-right overflow-auto h-[200px] custom-scrollbar">
           {Array(3)
@@ -30,7 +30,7 @@ function MostViewed() {
     );
 
   return (
-    <div className="fixed flex flex-col items-center top-[450px] left-0 w-[40%]">
+    <div className="fixed flex flex-col items-center top-[550px] left-0 w-[40%]">
       <h1 className="mx-auto mt-6 font-bold">پربازدید ها</h1>
       <div className="flex flex-col pt-3 w-[400px] text-right overflow-auto h-[200px] custom-scrollbar">
         {data?.data?.temp?.map((article: Article, index: number) => (

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { MdNotificationsNone, MdPerson } from "react-icons/md";
+import { MdNotificationsNone, MdPerson, MdAdd } from "react-icons/md";
 import { FaRegBookmark } from "react-icons/fa";
 import { useGetProfile } from "@/hooks/useReactQuery";
 import Searchbar from "./Searchbar";
@@ -19,11 +19,11 @@ function Navbar({ simple }: NavbarProps) {
     <div
       className={
         simple
-          ? "flex flex-row-reverse items-center justify-between h-[50px] w-screen fixed top-0 bg-primary shadow-md z-50"
+          ? "flex flex-row-reverse items-center justify-between h-[70px] w-screen fixed top-0 bg-primary shadow-md z-50"
           : "flex flex-row-reverse items-center justify-between h-[90px] max-lg: w-screen fixed top-0 bg-primary shadow-sm z-50"
       }
     >
-      <div className="text-[18px] text-nowrap mr-12 max-lg:mr-4 font-bold cursor-pointer">
+      <div className="text-[25px] max-lg:text-[18px] text-nowrap mr-12 max-lg:mr-4 font-bold cursor-pointer">
         <Link href={"/"}>
           <p>
             Sanaw <span className="text-[#3CE1C4]">ICT</span>
@@ -48,11 +48,15 @@ function Navbar({ simple }: NavbarProps) {
               className="bg-black rounded-full"
             />
           ) : (
-            <MdPerson className="text-[29px] text-gray-500 cursor-pointer " />
+            <MdPerson className="text-[25px] text-gray-500 cursor-pointer " />
           )}
         </Link>
-        <MdNotificationsNone className="text-[26px] text-gray-500 cursor-pointer " />
-        <FaRegBookmark className="text-[20px] text-gray-500 cursor-pointer " />
+        <MdNotificationsNone className="text-[23px] text-gray-500 cursor-pointer " />
+        <FaRegBookmark className="text-[18px] text-gray-500 cursor-pointer " />
+        <Link href={"/articles/create"}>
+          {" "}
+          <MdAdd className="text-[28px] text-gray-500 cursor-pointer " />
+        </Link>
       </div>
     </div>
   );
