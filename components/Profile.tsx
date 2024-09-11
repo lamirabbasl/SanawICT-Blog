@@ -1,16 +1,26 @@
 "use client";
 
-import { useGetProfile } from "@/hooks/useReactQuery";
+import { useFollowUser, useGetProfile } from "@/hooks/useReactQuery";
 import Image from "next/image";
 import { useState } from "react";
 import { IoPersonAddSharp } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import Articles from "./Articles";
 import Notifications from "./Notifications";
+import UserArticles from "./UserArticles";
+import { usePathname } from "next/navigation";
 
-function Profile() {
+function Profile({ user }: { user?: "other" }) {
   const { data, isLoading, isError } = useGetProfile();
   const [tab, setTab] = useState("articles");
+  const followUser = useFollowUser();
+
+  const path = usePathname();
+  const userId = path.split("profile/")[1];
+
+  const handleFllow = () => {
+    followUser.mutate(userId);
+  };
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -52,13 +62,25 @@ function Profile() {
             <span>{profile?.numberOfFollowings}</span>
           </div>
         </div>
-        <button className="bg-green-500 font-extrabold text-white hover:bg-green-600  w-[150px] h-[29px] rounded-full">
-          <div className="flex justify-center items-center gap-2">
-            <p>تغییر پروفایل</p>
-            <IoMdSettings className="" />
-          </div>
-        </button>
-        <div className="  flex flex-row-reverse  w-screen absolute justify-center mt-[350px] items-center gap-7 text-[15px]">
+        {user == "other" ? (
+          <button
+            className="bg-green-500 font-extrabold text-white hover:bg-green-600  w-[150px] h-[29px] rounded-full"
+            onClick={() => handleFllow()}
+          >
+            <div className="flex justify-center items-center gap-2">
+              <p>دنبال کردن</p>
+              <IoMdSettings className="" />
+            </div>
+          </button>
+        ) : (
+          <button className="bg-green-500 font-extrabold text-white hover:bg-green-600  w-[150px] h-[29px] rounded-full">
+            <div className="flex justify-center items-center gap-2">
+              <p>تغییر پروفایل</p>
+              <IoMdSettings className="" />
+            </div>
+          </button>
+        )}
+        <div className="flex flex-row-reverse  w-screen absolute justify-center mt-[433px] items-center gap-7 text-[15px]">
           <div
             className={
               tab == "articles"
@@ -94,14 +116,14 @@ function Profile() {
           </div>
         </div>
       </div>
-      <div className=" flex justify-center items-centerw-screen h-full ">
+      <div className="flex justify-center  w-screen h-full ">
         {tab == "articles" ? (
-          <div className="ml-[120px]">
-            <Articles />
+          <div className="">
+            <UserArticles id={data.data.user.id} />
           </div>
         ) : tab == "saved" ? (
-          <div className="ml-[120px]">
-            <Articles />
+          <div className="">
+            <UserArticles id={data.data.user.id} />
           </div>
         ) : (
           <Notifications />

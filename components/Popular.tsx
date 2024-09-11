@@ -34,8 +34,8 @@ function Popular() {
     <div className="fixed flex flex-col items-center top-[200px] left-0 w-[40%]">
       <h1 className="mx-auto mt-6 font-bold">محبوب ترین ها</h1>
       <div className="flex flex-col pt-3 w-[400px] text-right overflow-auto h-[200px] custom-scrollbar">
-        {data?.data?.temp?.map((article: Article, index: number) => (
-          <Link href={`/articles/read/${article.id}`} key={index}>
+        {data?.data?.map((article: any, index: number) => (
+          <Link href={`/articles/read/${article.slug}`} key={index}>
             <div
               className="flex flex-row-reverse w-full border-b-[1px] pb-2 justify-between items-center mt-3 pr-4 cursor-pointer hover:text-[#3f9686]"
               key={index}

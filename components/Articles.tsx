@@ -10,7 +10,6 @@ import {
 } from "@/hooks/useReactQuery";
 import { MdPerson, MdMoreVert } from "react-icons/md";
 import { FaRegHeart, FaHeart, FaRegBookmark, FaBookmark } from "react-icons/fa";
-import { Article } from "@/types/Article";
 import { useQueryClient } from "@tanstack/react-query";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -28,6 +27,7 @@ function Articles({ user }: { user?: string }) {
   const saveArticleMutation = useSaveArticle();
   const unsaveArticleMutation = useUnsaveArticle();
   const queryClient = useQueryClient();
+  console.log(data);
 
   const toggleDropdown = (id: number) => {
     setOpenDropdownId(openDropdownId === id ? null : id);
@@ -41,7 +41,7 @@ function Articles({ user }: { user?: string }) {
     setReportArticleId(null);
   };
 
-  const handleToggleLike = (article: Article) => {
+  const handleToggleLike = (article: any) => {
     if (!data) return;
 
     const likedByUser = !article.likedByUser;
@@ -49,20 +49,19 @@ function Articles({ user }: { user?: string }) {
       ? article.likeCount + 1
       : article.likeCount - 1;
 
+    // Perform optimistic update
     queryClient.setQueryData(["articles"], (oldData: any) => {
       return oldData
         ? {
             ...oldData,
-            data: {
-              ...oldData.data,
-              temp: oldData.data.temp.map((a: any) =>
-                a.id === article.id ? { ...a, likedByUser, likeCount } : a
-              ),
-            },
+            data: oldData.data.map((a: any) =>
+              a.id === article.id ? { ...a, likedByUser, likeCount } : a
+            ),
           }
         : oldData;
     });
 
+    // Perform the mutation
     if (likedByUser) {
       likeArticleMutation.mutate(article.id, {
         onError: () => {
@@ -71,18 +70,15 @@ function Articles({ user }: { user?: string }) {
             return oldData
               ? {
                   ...oldData,
-                  data: {
-                    ...oldData.data,
-                    temp: oldData.data.temp.map((a: any) =>
-                      a.id === article.id
-                        ? {
-                            ...a,
-                            likedByUser: !likedByUser,
-                            likeCount: article.likeCount,
-                          }
-                        : a
-                    ),
-                  },
+                  data: oldData.data.map((a: any) =>
+                    a.id === article.id
+                      ? {
+                          ...a,
+                          likedByUser: !likedByUser,
+                          likeCount: article.likeCount,
+                        }
+                      : a
+                  ),
                 }
               : oldData;
           });
@@ -96,18 +92,15 @@ function Articles({ user }: { user?: string }) {
             return oldData
               ? {
                   ...oldData,
-                  data: {
-                    ...oldData.data,
-                    temp: oldData.data.temp.map((a: any) =>
-                      a.id === article.id
-                        ? {
-                            ...a,
-                            likedByUser: !likedByUser,
-                            likeCount: article.likeCount,
-                          }
-                        : a
-                    ),
-                  },
+                  data: oldData.data.map((a: any) =>
+                    a.id === article.id
+                      ? {
+                          ...a,
+                          likedByUser: !likedByUser,
+                          likeCount: article.likeCount,
+                        }
+                      : a
+                  ),
                 }
               : oldData;
           });
@@ -116,25 +109,24 @@ function Articles({ user }: { user?: string }) {
     }
   };
 
-  const handleToggleSave = (article: Article) => {
+  const handleToggleSave = (article: any) => {
     if (!data) return;
 
     const savedByUser = !article.savedByUser;
 
+    // Perform optimistic update
     queryClient.setQueryData(["articles"], (oldData: any) => {
       return oldData
         ? {
             ...oldData,
-            data: {
-              ...oldData.data,
-              temp: oldData.data.temp.map((a: any) =>
-                a.id === article.id ? { ...a, savedByUser } : a
-              ),
-            },
+            data: oldData.data.map((a: any) =>
+              a.id === article.id ? { ...a, savedByUser } : a
+            ),
           }
         : oldData;
     });
 
+    // Perform the mutation
     if (savedByUser) {
       saveArticleMutation.mutate(article.id, {
         onError: () => {
@@ -143,14 +135,11 @@ function Articles({ user }: { user?: string }) {
             return oldData
               ? {
                   ...oldData,
-                  data: {
-                    ...oldData.data,
-                    temp: oldData.data.temp.map((a: any) =>
-                      a.id === article.id
-                        ? { ...a, savedByUser: !savedByUser }
-                        : a
-                    ),
-                  },
+                  data: oldData.data.map((a: any) =>
+                    a.id === article.id
+                      ? { ...a, savedByUser: !savedByUser }
+                      : a
+                  ),
                 }
               : oldData;
           });
@@ -164,14 +153,11 @@ function Articles({ user }: { user?: string }) {
             return oldData
               ? {
                   ...oldData,
-                  data: {
-                    ...oldData.data,
-                    atemp: oldData.data.temp.map((a: any) =>
-                      a.id === article.id
-                        ? { ...a, savedByUser: !savedByUser }
-                        : a
-                    ),
-                  },
+                  data: oldData.data.map((a: any) =>
+                    a.id === article.id
+                      ? { ...a, savedByUser: !savedByUser }
+                      : a
+                  ),
                 }
               : oldData;
           });
@@ -230,12 +216,10 @@ function Articles({ user }: { user?: string }) {
     );
   }
 
-  const reversedArticles = [...(data?.data.temp || [])].reverse();
-
   return (
     <div className="relative flex flex-col pt-10 w-[700px] max-lg:w-full text-right gap-10">
-      {reversedArticles.map(
-        (article: Article, index: number) =>
+      {data.data.map(
+        (article: any, index: number) =>
           article.isVisible && (
             <div
               className="relative flex flex-row-reverse w-full pb-6 gap-6 mt-3 hover:border-white border-b-[1px] border-gray-300 group "
@@ -266,7 +250,7 @@ function Articles({ user }: { user?: string }) {
                   </Link>
                 </div>
                 <div className="flex flex-row-reverse mt-5 justify-between w-full items-center">
-                  <Link href={`/profile/${article.author.username}`}>
+                  <Link href={`/users/profile/${article.author.id}`}>
                     <div className="flex flex-row-reverse text-right items-center justify-center gap-3 cursor-pointer">
                       {article.userAvatar ? (
                         <Image

@@ -38,7 +38,7 @@ function Navbar({ simple }: NavbarProps) {
       </div>
 
       <div className="flex items-center max-lg:hidden justify-center ml-10 gap-6">
-        <Link href={"/profile/me"}>
+        <Link href={"/users/profile/me"}>
           {data?.data?.user?.avatar ? (
             <Image
               src={data.data.user.avatar}

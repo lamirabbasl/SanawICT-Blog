@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import Token from "@/utility/token";
+import { IoRemove } from "react-icons/io5";
 
 import {
   ClassicEditor,
@@ -60,14 +61,38 @@ export default function Ckeditor() {
   const editorRef = useRef<ClassicEditor | null>(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
   const [editorData, setEditorData] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>("");
 
   const [title, setTitle] = useState("");
   const [metaTitle, setMetaTitle] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
   const [readTimeAsMin, setReadTimeAsMin] = useState(0);
   const [categoryId, setCategoryId] = useState(1);
   const [selected, setSelected] = useState<number>();
   const { data, isLoading, isError, refetch } = useGetCategories();
+
+  const handleAddTag = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (tags.length >= 6) {
+      alert("You can only add up to 6 tags.");
+      return;
+    }
+
+    if (inputValue && !tags.includes(inputValue)) {
+      setTags([...tags, inputValue]);
+      setInputValue("");
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setTags(tags.filter((tag) => tag !== tagToRemove)); // Remove the selected tag from the array
+  };
+
+  const setCategory = (id: number) => {
+    setSelected(id);
+    setCategoryId(id);
+  };
 
   useEffect(() => {
     setIsLayoutReady(true);
@@ -209,8 +234,6 @@ export default function Ckeditor() {
       uploadUrl: `/api/articles/fileUpload`,
 
       headers: {
-        accept: "application/json",
-        "content-type": "*/*",
         Authorization: `Bearer ${Token}`,
       },
     },
@@ -272,7 +295,7 @@ export default function Ckeditor() {
             content,
             tags,
             readTimeAsMin,
-            categoryId,
+            categoryId: categoryId,
           }),
         });
 
@@ -315,19 +338,44 @@ export default function Ckeditor() {
               className=" border-b-2 border-green-500  text-xs placeholder:text-right  placeholder:text-xs focus:text-right  rounded-sm   outline-none"
             />
           </div>
-          <div className=" flex flex-col gap-6">
-            <label htmlFor="tags" className=" text-right">
+          <div className="flex flex-col relative gap-6">
+            <label htmlFor="tags" className="text-right">
               تگ ها
             </label>
-            <input
-              type="text"
-              placeholder="تگ را مقاله را وارد کنید"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-              className="  border-b-2 border-green-500 text-xs placeholder:text-right  placeholder:text-xs focus:text-right  rounded-sm outline-none"
-            />
+            <div className=" flex   flex-row-reverse gap-3 justify-center items-center">
+              <input
+                type="text"
+                placeholder="تگ را مقاله را وارد کنید"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)} // Update input value on change
+                className="border-b-2 border-green-500 text-xs placeholder:text-right placeholder:text-xs focus:text-right rounded-sm outline-none"
+              />
+              <button
+                onClick={handleAddTag}
+                className="bg-green-500 text-xs text-white px-2 py-1 rounded ml-2"
+              >
+                افزودن
+              </button>
+            </div>
+
+            <div className=" absolute -bottom-16 flex flex-wrap h-10 gap-2 ">
+              {tags.map((tag, index) => (
+                <div className=" relative">
+                  <span
+                    key={index}
+                    className="inline-block  bg-gray-200 text-xs text-black px-2 py-1 rounded"
+                  >
+                    {tag}
+                  </span>
+                  <IoRemove
+                    className=" absolute -top-2 cursor-pointer -right-2 text-[20px] text-red-500  bg-white border-2 rounded-full"
+                    onClick={() => handleRemoveTag(tag)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-          <div className=" flex flex-col gap-6 justify-center items-center">
+          <div className=" flex flex-col max-md:mt-20 gap-6 justify-center items-center">
             <label htmlFor="tags" className="">
               مدت زمان مطالعه
             </label>
@@ -346,12 +394,12 @@ export default function Ckeditor() {
             {data?.data?.categories.map((category: any, index: number) => (
               <div
                 className={
-                  selected == index
+                  selected == category.id
                     ? " flex rounded-full bg-gray-600 text-white px-3 pt-2 pb-1 cursor-pointer"
                     : " flex rounded-full bg-secondery px-3 pt-2 pb-1 cursor-pointer"
                 }
                 key={index}
-                onClick={() => setSelected(index)}
+                onClick={() => setCategory(category.id)}
               >
                 <p className=" text-center text-[12px]">{category.name}</p>
               </div>

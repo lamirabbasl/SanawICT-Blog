@@ -19,7 +19,7 @@ export interface Article {
 
 export interface ArticlesResponse {
   data: {
-    temp: Article[];
+    data: Article[];
   };
 }
 

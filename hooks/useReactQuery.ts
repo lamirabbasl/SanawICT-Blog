@@ -7,6 +7,7 @@ import {
   deleteViolationReportCase,
   editCategory,
   editViolationReportCase,
+  fetchArticleComments,
   fetchArticlePage,
   fetchArticles,
   fetchCategories,
@@ -15,8 +16,10 @@ import {
   fetchProfile,
   fetchSearchArticle,
   fetchSearchArticleQuery,
+  fetchUserProfile,
   fetchViolationReportCases,
   fetchViolationReports,
+  followUser,
   likeArticle,
   reportArticle,
   saveArticle,
@@ -229,5 +232,30 @@ export const useGetViolationReportCases = () => {
   return useQuery({
     queryKey: ["violationReportCases"],
     queryFn: fetchViolationReportCases,
+  });
+};
+
+export const useGetArticleComment = (articleId: number) => {
+  return useQuery({
+    queryKey: ["articlePage", articleId],
+    queryFn: () => fetchArticleComments(articleId),
+  });
+};
+
+export const useGetUserProfile = (userId: any) => {
+  return useQuery({
+    queryKey: ["userProfile", userId],
+    queryFn: () => fetchUserProfile(userId),
+  });
+};
+
+export const useFollowUser = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: any) => followUser(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["follows"] });
+    },
   });
 };

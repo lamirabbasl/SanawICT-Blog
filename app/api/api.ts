@@ -21,5 +21,8 @@ const api = {
   createViolationReportsCase: `${process.env.NEXT_PUBLIC_API}/violationReportCases/cases`,
   deleteViolationReportsCase: `${process.env.NEXT_PUBLIC_API}/violationReportCases/cases/`,
   editViolationReportsCase: `${process.env.NEXT_PUBLIC_API}/violationReportCases/cases/`,
+  articleComments: `${process.env.NEXT_PUBLIC_API}/articles/comments/`,
+  usersProfile: `${process.env.NEXT_PUBLIC_API}/users/profile/`,
+  followUser: `${process.env.NEXT_PUBLIC_API}/users/follow/`,
 };
 export default api;

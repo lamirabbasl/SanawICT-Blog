@@ -2,7 +2,7 @@ import api from "@/app/api/api";
 import Token from "@/utility/token";
 import { ArticlesResponse } from "@/types/Article";
 
-export const fetchArticles = async (): Promise<ArticlesResponse> => {
+export const fetchArticles = async () => {
   const response = await fetch(api.articles, {
     method: "GET",
     headers: {
@@ -419,4 +419,48 @@ export const fetchSearchArticleQuery = async (searchQuery: string | null) => {
       },
     }
   );
+};
+
+export const fetchArticleComments = async (articleId: any) => {
+  const response = await fetch(`${api.articleComments}${articleId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};
+
+export const fetchUserProfile = async (userId: any) => {
+  const response = await fetch(`${api.usersProfile}${userId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  return response.json();
+};
+
+export const followUser = async (userId: any): Promise<void> => {
+  const response = await fetch(`${api.followUser}${userId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${Token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
 };
